@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Home Page </title>
+	</head>
+	<body>
+		<h1> Home Page </h1>
+		<div>
+			{{ range .Urls }}
+			<p> {{ .long }}: {{ .short }} </p>
+			{{ end }}
+		</div>
+	</body>
+</html>
