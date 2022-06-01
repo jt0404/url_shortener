@@ -51,10 +51,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(result)
-
 	for _, res := range result {
-		s := fmt.Sprintf("%v", res["long"])
-		fmt.Println(s)
+		s := "http://" + fmt.Sprintf("%v", res["long"])
 		http.Redirect(w, r, s, 301)
 		return
 	}
@@ -68,6 +66,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
+	fmt.Println(result)
 	for _, res := range result {
 		s := fmt.Sprintf("%v", res["short"])
 		res["short"] = r.Host + "/" + s
@@ -101,7 +100,7 @@ func createUrlHandler(w http.ResponseWriter, r *http.Request) {
 
 	long := r.FormValue("url")
 	if long == "" {
-		return
+		http.Redirect(w, r, "/create", http.StatusSeeOther)
 	}
 
 	cursor, err := urlsCollection.Find(context.TODO(), bson.M{"long": long})
