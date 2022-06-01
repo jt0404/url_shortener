@@ -19,8 +19,8 @@ var urlsCollection *mongo.Collection
 type Url struct {
 	Long 		string
 	Short		string
-	CreatedAt	time.Time
-	ExpiresAt	time.Time
+	CreatedAt	string
+	ExpiresAt	string
 }
 
 type Urls struct {
@@ -38,7 +38,16 @@ func encodeLong(long string, id int64) (short string) {
 	return short
 }
 
+func removeExpired() {
+	now := time.Now().Format("02-01-2006")
+	_, err := urlsCollection.DeleteMany(context.TODO(), bson.M{"expiresat": now})
+	if err != nil {
+		panic(err)
+	}
+}
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	removeExpired()
 	// if found in db, redirect to long url
 	cursor, err := urlsCollection.Find(context.TODO(), bson.M{"short": r.URL.String()[1:]})
 	if err != nil {
@@ -50,7 +59,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	fmt.Println(result)
 	for _, res := range result {
 		s := "http://" + fmt.Sprintf("%v", res["long"])
 		http.Redirect(w, r, s, 301)
@@ -66,7 +74,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	fmt.Println(result)
 	for _, res := range result {
 		s := fmt.Sprintf("%v", res["short"])
 		res["short"] = r.Host + "/" + s
@@ -76,9 +83,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-
-	urls := Urls{Urls: result}
-	t.Execute(w, urls)
+	t.Execute(w, Urls{Urls: result})
 }
 
 func createUrlHandler(w http.ResponseWriter, r *http.Request) {
@@ -120,8 +125,8 @@ func createUrlHandler(w http.ResponseWriter, r *http.Request) {
 
 	short := encodeLong(long, int64(count + 1))
 	createdAt := time.Now()
-	expiresAt := createdAt.AddDate(0, 1, 0)
-	url := Url{Long: long, Short: short, CreatedAt: createdAt, ExpiresAt: expiresAt}
+	expiresAt := createdAt.AddDate(0, 1, 0).Format("02-01-2006")
+	url := Url{Long: long, Short: short, CreatedAt: createdAt.Format("02-01-2006"), ExpiresAt: expiresAt}
 
 	_, err = urlsCollection.InsertOne(context.TODO(), url)
 	if err != nil {

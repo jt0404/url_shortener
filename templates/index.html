@@ -2,14 +2,49 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title> Home Page </title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 	</head>
 	<body>
-		<h1> Home Page </h1>
-		<div>
-			{{ range .Urls }}
-			 <p> {{ .long }}: {{ .short }} </p>
-			{{ end }}
-		</div>
+		<nav>
+			<ul class="nav justify-content-end">
+				<li class="nav-item">
+					<a class="nav-link active" href="/">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/create">Create</a>
+				</li>
+			</ul>
+		</nav>
+
+		<header>
+			<h1> Home Page </h1>
+		</header>
+
+		<main>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col"> Long </th>
+						<th scope="col"> Short </th>
+						<th scope="col"> Created At </th>
+						<th scope="col"> Expires At </th>
+					</tr>
+				</thead>
+				<tbody>
+					{{ range .Urls }}
+					<tr>
+						<td> {{ .long }} </td>
+						<td> {{ .short }} </td>
+						<td> {{ .createdat }} </td>
+						<td> {{ .expiresat }} </td>
+					</tr>
+					{{ end }}
+				</tbody>
+			</table>
+		</main>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 	</body>
 </html>

@@ -2,14 +2,34 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title> Create Url </title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 	</head>
 	<body>
-		<h1> Create Url </h1>
+		<nav>
+			<ul class="nav justify-content-end">
+				<li class="nav-item">
+					<a class="nav-link active" href="/">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/create">Create</a>
+				</li>
+			</ul>
+		</nav>
+		<header>
+			<h1> Create Url </h1>
+		</header>
+		<main>
 		<form method="post">
-			<div> <label for="url"> Url: </label> </div>
-			<div><input type="text" id="url" name="url"> </div>
-			<div> <input type="submit" value="Submit"> </div>
-		</form>
+			<div class="mb-3" style="margin-left: 15px">
+				<label for="url"> Url: </label>
+				<input type="text" class="form-control" id="url" name="url">
+			</div>
+			<button type="submit" class="btn btn-primary" style="margin-left: 15px">Submit</button>
+			</form>
+		</main>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 	</body>
 </html>
